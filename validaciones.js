@@ -180,10 +180,6 @@ function initContactFormValidation() {
             // Simular delay de red
             await new Promise(resolve => setTimeout(resolve, 2000));
             
-            // Aquí iría tu código de envío real
-            // const formData = new FormData(contactForm);
-            // await fetch('/tu-endpoint', { method: 'POST', body: formData });
-            
             alert('¡Gracias por tu mensaje! Te contactaremos pronto.');
             contactForm.reset();
             if (charCount) charCount.textContent = '0';
@@ -297,10 +293,6 @@ function initLoginFormValidation() {
         try {
             // Simular delay de red
             await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            // Aquí iría tu código de envío real
-            // const formData = new FormData(loginForm);
-            // await fetch('/login-endpoint', { method: 'POST', body: formData });
             
             alert('¡Inicio de sesión exitoso!');
             loginForm.reset();
@@ -448,11 +440,7 @@ function initRegisterFormValidation() {
         try {
             // Simular delay de red
             await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            // Aquí iría tu código de envío real
-            // const formData = new FormData(registerForm);
-            // await fetch('/register-endpoint', { method: 'POST', body: formData });
-            
+        
             alert('¡Cuenta creada exitosamente!');
             registerForm.reset();
             changePage('login');

@@ -1,3 +1,4 @@
+// Script de ShibuyaStore 
 // Navegación entre páginas
 document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link');
