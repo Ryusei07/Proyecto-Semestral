@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>chiyowiiStore - Tu tienda de figuras de anime</title>
+    <title>ShibuyaStore - Tu tienda de figuras de anime</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="carrito.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -13,7 +14,7 @@
         <div class="container header-content">
             <div class="logo">
                 <span class="logo-icon"><i class="fas fa-dragon"></i></span>
-                <h1>ChiyowiiStore</h1>
+                <h1>ShibuyaStore</h1>
             </div>
             <nav>
                 <ul>
@@ -22,10 +23,11 @@
                     <li><a href="#" class="nav-link" data-page="about">Nosotros</a></li>
                     <li><a href="#" class="nav-link" data-page="blog">Blogs</a></li>
                     <li><a href="#" class="nav-link" data-page="contact">Contacto</a></li>
+                    <li><a href="#" class="nav-link" data-page="login">Login</a></li>
                 </ul>
             </nav>
             <div class="cart-icon">
-                <span><i class="fas fa-shopping-cart"></i> Carrito (0)</span>
+                <span><i class="fas fa-shopping-cart"></i> Carrito (<span id="cart-count">0</span>)</span>
             </div>
         </div>
     </header>
@@ -44,54 +46,54 @@
             <h2 class="section-title">Productos Destacados</h2>
             <div class="products-grid">
                 <!-- Producto 1 -->
-                <div class="product-card">
+                <div class="product-card" data-id="goku-001">
                     <div class="product-image">
                         <img src="https://phantom.pe/media/catalog/product/cache/c58c05327f55128aefac5642661cf3d1/4/9/4983164880748.jpg" alt="Figura de Anime 1">
                     </div>
                     <div class="product-info">
                         <h3>Goku</h3>
-                        <p>Figura de Dragon Ball AAA</p>
-                        <div class="product-price">$39.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <p>Figura de Dragon Ball Z</p>
+                        <div class="product-price">$39</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
                 <!-- Producto 2 -->
-                <div class="product-card">
+                <div class="product-card" data-id="naruto-002">
                     <div class="product-image">
                         <img src="https://manga-imperial.fr/cdn/shop/files/S8f18342d19c743e6a276b7fe91692863B_1600x.webp?v=1707138238" alt="Figura de Anime 2">
                     </div>
                     <div class="product-info">
                         <h3>Naruto Uzumaki - Modo sabio</h3>
                         <p>Figura de Naruto Shippuden</p>
-                        <div class="product-price">$54.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$54</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
                 <!-- Producto 3 -->
-                <div class="product-card">
+                <div class="product-card" data-id="luffy-003">
                     <div class="product-image">
                         <img src="https://i.pinimg.com/736x/c0/e2/37/c0e2378142e0424476f9458f6d02c250.jpg" alt="Figura de Anime 3">
                     </div>
                     <div class="product-info">
                         <h3>Monkey D. Luffy</h3>
                         <p>Figura de One Piece</p>
-                        <div class="product-price">$43.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$43</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
                 <!-- Producto 4 -->
-                <div class="product-card">
+                <div class="product-card" data-id="eren-004">
                     <div class="product-image">
                         <img src="https://cdn.shopify.com/s/files/1/0745/0243/9197/files/51FH3-JhwZL._AC_SL1000.jpg?v=1753999379" alt="Figura de Anime 4">
                     </div>
                     <div class="product-info">
                         <h3>Eren Jaeger</h3>
                         <p>Figura de Attack on Titan</p>
-                        <div class="product-price">$149.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$149</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
             </div>
@@ -105,99 +107,99 @@
             
             <div class="products-grid">
                 <!-- Productos repetidos para llenar la página -->
-                <div class="product-card">
+                <div class="product-card" data-id="goku-001">
                     <div class="product-image">
                         <img src="https://phantom.pe/media/catalog/product/cache/c58c05327f55128aefac5642661cf3d1/4/9/4983164880748.jpg" alt="Figura de Anime">
                     </div>
                     <div class="product-info">
                         <h3>Goku</h3>
-                        <p>Figura de Dragon Ball z</p>
-                        <div class="product-price">$39.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <p>Figura de Dragon ball Z</p>
+                        <div class="product-price">$39</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="naruto-002">
                     <div class="product-image">
                         <img src="https://manga-imperial.fr/cdn/shop/files/S8f18342d19c743e6a276b7fe91692863B_1600x.webp?v=1707138238" alt="Figura de Anime">
                     </div>
                     <div class="product-info">
                         <h3>Naruto Uzumaki - Modo sabio</h3>
                         <p>Figura de Naruto Shippuden</p>
-                        <div class="product-price">$54.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$54</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="luffy-003">
                     <div class="product-image">
                         <img src="https://i.pinimg.com/736x/c0/e2/37/c0e2378142e0424476f9458f6d02c250.jpg" alt="Figura de Anime">
                     </div>
                     <div class="product-info">
                         <h3>Monkey D. Luffy</h3>
                         <p>Figura de One Piece</p>
-                        <div class="product-price">$43.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$43</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="eren-004">
                     <div class="product-image">
                         <img src="https://cdn.shopify.com/s/files/1/0745/0243/9197/files/51FH3-JhwZL._AC_SL1000.jpg?v=1753999379" alt="Figura de Anime">
                     </div>
                     <div class="product-info">
                         <h3>Eren Jaeger</h3>
                         <p>Figura de Attack on Titan</p>
-                        <div class="product-price">$149.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$149</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="tanjiro-005">
                     <div class="product-image">
                         <img src="https://i5.walmartimages.com/asr/b187ec64-09c0-4a85-91a9-1e55f73efb4a.f82370511a6ca17fca0fa0aec5155101.jpeg" alt="Figura de Anime">
                     </div>
                     <div class="product-info">
                         <h3>Tanjiro Kamado</h3>
                         <p>Figura de Demon Slayer</p>
-                        <div class="product-price">$150.792</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$150</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="toga-006">
                     <div class="product-image">
                         <img src="https://tienda.richirocko.com/wp-content/uploads/2024/12/FIGURE-178695_11.jpg" alt="Figura de Anime">
                     </div>
                     <div class="product-info">
                         <h3>Himiko Toga</h3>
                         <p>Figura de My Hero Academia</p>
-                        <div class="product-price">$199.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$199</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="hutao-007">
                     <div class="product-image">
                         <img src="https://toysonejapan.com/cdn/shop/files/s-l1600_9_03ce6861-89f7-478d-b0e3-61f8f5663780_800x534.webp?v=1736514979" alt="Figura de Anime">
                     </div>
                     <div class="product-info">
-                        <h3>Hu tao</h3>
+                        <h3>Hu Tao</h3>
                         <p>Figura de Genshin Impact</p>
-                        <div class="product-price">$249.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$249</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="satoru-008">
                     <div class="product-image">
                         <img src="https://m.media-amazon.com/images/I/41ePgi+Cx2S._AC_SL1002_.jpg" alt="Figura de Anime">
                     </div>
                     <div class="product-info">
                         <h3>Gojo Satoru</h3>
                         <p>Figura de Jujutsu Kaisen</p>
-                        <div class="product-price">$29.990</div>
-                        <a href="#" class="btn">Añadir al carrito</a>
+                        <div class="product-price">$29</div>
+                        <a href="#" class="btn add-to-cart">Añadir al carrito</a>
                     </div>
                 </div>
             </div>
@@ -215,7 +217,7 @@
                 </div>
                 <div class="about-text">
                     <h3>Tu tienda de confianza para figuras de anime</h3>
-                    <p>ChiyowiiStore nació como un pequeño emprendimiento de amantes del anime que querían compartir su pasión con otros fans.</p>
+                    <p>ShibuyaStore nació como un pequeño emprendimiento de amantes del anime que querían compartir su pasión con otros fans.</p>
                     <p>Nuestra misión es proporcionar figuras de alta calidad a precios accesibles y envíos rápidos a todo el continente.</p>
                     <p>Trabajamos directamente con los fabricantes más reconocidos de Japón y Corea del Sur para garantizar la autenticidad y calidad de cada figura que vendemos.</p>
                 </div>
@@ -266,7 +268,7 @@
                     <div class="blog-content">
                         <h3>Guía para Coleccionistas Principiantes</h3>
                         <div class="blog-meta">
-                            <span><i class="far fa-calendar"></i> 28 Julio, 2025</span>
+                            <span><i class="far fa-calendar"></i> 28 Septiembre, 2023</span>
                             <span><i class="far fa-user"></i> Admin</span>
                         </div>
                         <p>Consejos esenciales para quienes están comenzando su colección de figuras de anime, desde cómo identificar figuras originales hasta tips de mantenimiento.</p>
@@ -287,41 +289,224 @@
                     <h3>Información de Contacto</h3>
                     
                     <div class="contact-details">
-                        <p><i class="fas fa-map-marker-alt"></i> Av. Apoquindo 6550, Las Condes, Santiago, Chile</p>
-                        <p><i class="fas fa-envelope"></i> info@animechiyowiistore.cl</p>
-                        <p><i class="fas fa-clock"></i> Lunes a Sábado: 10:00 - 20:00</p>
-                    </div>
-                    
-                    <div class="map">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.8913655253256!2d-70.65045492423808!3d-33.433141973665494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c5a5a5a5a5a5%3A0x5a5a5a5a5a5a5a5a!2sSantiago%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses!2scl!4v1664567890123!5m2!1ses!2scl" width="100%" height="200" style="border:0; border-radius: 5px;" allowfullscreen="" loading="lazy"></iframe>
+                        <p><i class="fas fa-map-marker-alt"></i> Sin tienda fisica aun!!!</p>
+                        <p><i class="fas fa-envelope"></i> info@animeshibuyastore.cl</p>
+                        <p><i class="fas fa-clock"></i> Soporte de Lunes a Sábado: 10:00 - 20:00</p>
                     </div>
                 </div>
                 
                 <div class="contact-form">
                     <h3>Envíanos un Mensaje</h3>
                     
-                    <form id="contactForm">
+                    <form id="contactForm" novalidate>
                         <div class="form-group">
-                            <label for="name">Nombre</label>
-                            <input type="text" id="name" name="name" required>
+                            <label for="name">Nombre completo *</label>
+                            <input type="text" id="name" name="name" required 
+                                   placeholder="Ingresa tu nombre completo"
+                                   autocomplete="name"
+                                   minlength="2"
+                                   maxlength="50"
+                                   pattern="[A-Za-záéíóúñÁÉÍÓÚÑ\s]+">
+                            <span class="error-message" id="nameError"></span>
                         </div>
                         
                         <div class="form-group">
-                            <label for="email">Correo Electrónico</label>
-                            <input type="email" id="email" name="email" required>
+                            <label for="email">Correo Electrónico *</label>
+                            <input type="email" id="email" name="email" required
+                                   placeholder="tu.email@ejemplo.com"
+                                   autocomplete="email"
+                                   maxlength="100">
+                            <span class="error-message" id="emailError"></span>
                         </div>
                         
                         <div class="form-group">
-                            <label for="subject">Asunto</label>
-                            <input type="text" id="subject" name="subject" required>
+                            <label for="phone">Teléfono (opcional)</label>
+                            <input type="tel" id="phone" name="phone"
+                                   placeholder="+56 9 1234 5678"
+                                   autocomplete="tel"
+                                   pattern="[\+]?[0-9\s\-\(\)]+"
+                                   maxlength="20">
+                            <span class="error-message" id="phoneError"></span>
                         </div>
                         
                         <div class="form-group">
-                            <label for="message">Mensaje</label>
-                            <textarea id="message" name="message" required></textarea>
+                            <label for="subject">Asunto *</label>
+                            <input type="text" id="subject" name="subject" required
+                                   placeholder="Ej: Consulta sobre productos"
+                                   autocomplete="off"
+                                   minlength="5"
+                                   maxlength="100">
+                            <span class="error-message" id="subjectError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mensaje *</label>
+                            <textarea id="message" name="message" required
+                                      placeholder="Escribe tu mensaje aquí..."
+                                      minlength="10"
+                                      maxlength="500"
+                                      rows="5"></textarea>
+                            <div class="char-counter">
+                                <span id="charCount">0</span>/500 caracteres
+                            </div>
+                            <span class="error-message" id="messageError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <label for="newsletter">Deseo recibir novedades y ofertas por email</label>
+                            </div>
                         </div>
                         
                         <button type="submit" class="btn">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Página Login -->
+    <section id="login" class="page">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <span class="logo-icon"><i class="fas fa-dragon"></i></span>
+                        <h2>ShibuyaStore</h2>
+                        <h3>Iniciar Sesión</h3>
+                    </div>
+                    
+                    <form id="loginForm" novalidate>
+                        <div class="form-group">
+                            <label for="login-email">Correo Electrónico *</label>
+                            <input type="email" id="login-email" name="email" required
+                                   placeholder="tu.email@ejemplo.com"
+                                   autocomplete="email"
+                                   maxlength="100">
+                            <span class="error-message" id="loginEmailError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password">Contraseña *</label>
+                            <input type="password" id="login-password" name="password" required
+                                   placeholder="Ingresa tu contraseña"
+                                   autocomplete="current-password"
+                                   minlength="4"
+                                   maxlength="10">
+                            <span class="error-message" id="loginPasswordError"></span>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-full">Iniciar Sesión</button>
+                        
+                        <div class="auth-links">
+                            <p>¿No tienes cuenta? <a href="#" class="nav-link" data-page="register">Regístrate aquí</a></p>
+                            <p><a href="#">¿Olvidaste tu contraseña?</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Página Registro -->
+    <section id="register" class="page">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <span class="logo-icon"><i class="fas fa-dragon"></i></span>
+                        <h2>ShibuyaStore</h2>
+                        <h3>Crear Cuenta</h3>
+                    </div>
+                    
+                    <form id="registerForm" novalidate>
+                        <div class="form-group">
+                            <label for="register-run">RUN *</label>
+                            <input type="text" id="register-run" name="run" required
+                                   placeholder="19011022K (sin puntos ni guión)"
+                                   autocomplete="off"
+                                   minlength="7"
+                                   maxlength="9"
+                                   pattern="[0-9]{7,9}[0-9Kk]">
+                            <span class="error-message" id="registerRunError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-name">Nombre *</label>
+                            <input type="text" id="register-name" name="name" required
+                                   placeholder="Ingresa tu nombre"
+                                   autocomplete="given-name"
+                                   maxlength="50"
+                                   pattern="[A-Za-záéíóúñÁÉÍÓÚÑ\s]+">
+                            <span class="error-message" id="registerNameError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-lastname">Apellidos *</label>
+                            <input type="text" id="register-lastname" name="lastname" required
+                                   placeholder="Ingresa tus apellidos"
+                                   autocomplete="family-name"
+                                   maxlength="100"
+                                   pattern="[A-Za-záéíóúñÁÉÍÓÚÑ\s]+">
+                            <span class="error-message" id="registerLastnameError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email">Correo Electrónico *</label>
+                            <input type="email" id="register-email" name="email" required
+                                   placeholder="tu.email@ejemplo.com"
+                                   autocomplete="email"
+                                   maxlength="100">
+                            <span class="error-message" id="registerEmailError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password">Contraseña *</label>
+                            <input type="password" id="register-password" name="password" required
+                                   placeholder="Crea una contraseña (4-10 caracteres)"
+                                   autocomplete="new-password"
+                                   minlength="4"
+                                   maxlength="10">
+                            <span class="error-message" id="registerPasswordError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-confirm-password">Confirmar Contraseña *</label>
+                            <input type="password" id="register-confirm-password" name="confirmPassword" required
+                                   placeholder="Repite tu contraseña"
+                                   autocomplete="new-password">
+                            <span class="error-message" id="registerConfirmPasswordError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-birthdate">Fecha de Nacimiento (opcional)</label>
+                            <input type="date" id="register-birthdate" name="birthdate"
+                                   autocomplete="bday">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-address">Dirección *</label>
+                            <input type="text" id="register-address" name="address" required
+                                   placeholder="Ingresa tu dirección completa"
+                                   autocomplete="street-address"
+                                   maxlength="300">
+                            <span class="error-message" id="registerAddressError"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="register-terms" name="terms" required>
+                                <label for="register-terms">Acepto los términos y condiciones</label>
+                            </div>
+                            <span class="error-message" id="registerTermsError"></span>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-full">Crear Cuenta</button>
+                        
+                        <div class="auth-links">
+                            <p>¿Ya tienes cuenta? <a href="#" class="nav-link" data-page="login">Inicia sesión aquí</a></p>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -333,7 +518,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>ChiyowiiStore</h3>
+                    <h3>ShibuyaStore</h3>
                     <p>Tu tienda confiable para figuras de anime de alta calidad.</p>
                 </div>
                 
@@ -371,11 +556,114 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 ChiyowiiStore. Todos los derechos reservados.</p>
+                <p>&copy; 2025 ShibuyaStore. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Carrito Flotante -->
+    <div id="carrito-flotante" class="carrito-flotante">
+        <div class="carrito-header">
+            <h3>Tu Carrito</h3>
+            <button class="cerrar-carrito" onclick="carritoUI.toggleCarrito()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="carrito-items" class="carrito-items"></div>
+        <div class="carrito-footer">
+            <div class="carrito-total">
+                <span>Total:</span>
+                <span id="carrito-total">$0.00</span>
+            </div>
+            <div class="carrito-acciones">
+                <button class="btn btn-vaciar" onclick="carritoUI.vaciarCarrito()">Vaciar Carrito</button>
+                <button class="btn btn-comprar" onclick="carritoUI.realizarCompra()">Realizar Compra</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="carrito-overlay" class="carrito-overlay" onclick="carritoUI.toggleCarrito()"></div>
+
+    <script src="validaciones.js"></script>
+    <script src="carrito.js"></script>
+    <script>
+        // Navegación entre páginas
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const viewProductsBtn = document.querySelector('.view-products-btn');
+            const pages = document.querySelectorAll('.page');
+            
+            // Función para cambiar de página
+            function changePage(pageId) {
+                // Ocultar todas las páginas
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Mostrar la página seleccionada
+                document.getElementById(pageId).classList.add('active');
+                
+                // Actualizar enlace activo
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-page') === pageId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            // Agregar event listeners a los enlaces de navegación
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    changePage(pageId);
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            // Agregar event listener al botón "Ver productos"
+            if (viewProductsBtn) {
+                viewProductsBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    changePage(pageId);
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                });
+            }
+        });
+
+        // Función global para cambiar de página
+        function changePage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Ocultar todas las páginas
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Mostrar la página seleccionada
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // Actualizar enlace activo
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
 </body>
 </html>

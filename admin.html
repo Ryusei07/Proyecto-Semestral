@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - ShibuyaStore</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar/Menú vertical -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <span class="logo-icon"><i class="fas fa-dragon"></i></span>
+                <h2>ShibuyaStore</h2>
+                <p>Panel de Administración</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="admin-home"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li class="nav-section">Productos</li>
+                    <li><a href="#" class="nav-link" data-page="admin-products"><i class="fas fa-box"></i> Listar Productos</a></li>
+                    <li><a href="#" class="nav-link" data-page="admin-new-product"><i class="fas fa-plus-circle"></i> Nuevo Producto</a></li>
+                    <li class="nav-section">Usuarios</li>
+                    <li><a href="#" class="nav-link" data-page="admin-users"><i class="fas fa-users"></i> Listar Usuarios</a></li>
+                    <li><a href="#" class="nav-link" data-page="admin-new-user"><i class="fas fa-user-plus"></i> Nuevo Usuario</a></li>
+                    <li class="nav-section">General</li>
+                    <li><a href="#" class="nav-link" data-page="logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="admin-page-title">Inicio</h1>
+                </div>
+                <div class="header-right">
+                    <span class="admin-name"><i class="fas fa-user-circle"></i> Administrador</span>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- Página de Inicio del Admin -->
+                <section id="admin-home" class="admin-page active">
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>9</h3>
+                                <p>Productos Totales</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>128</h3>
+                                <p>Usuarios Registrados</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>27</h3>
+                                <p>Órdenes del Mes</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>$2,257</h3>
+                                <p>Ingresos Totales</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-content">
+                        <div class="content-block">
+                            <h2>Actividad Reciente</h2>
+                            <div class="recent-activity">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <p>Nuevo producto añadido: "Alisa Mikhailovna Kujou"</p>
+                                        <span>Hace 2 horas</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <p>Nuevo usuario registrado: ana.kobayashi@duocuc.cl</p>
+                                        <span>Hace 5 horas</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <p>Nueva orden realizada #ORD-0045</p>
+                                        <span>Hace 1 día</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-block">
+                            <h2>Productos con Stock Crítico</h2>
+                            <div class="critical-stock">
+                                <div class="stock-item">
+                                    <span class="product-name">Naruto Uzumaki</span>
+                                    <span class="stock-amount">3 unidades</span>
+                                    <button class="btn-small">Reabastecer</button>
+                                </div>
+                                
+                                <div class="stock-item">
+                                    <span class="product-name">Hu Tao</span>
+                                    <span class="stock-amount">2 unidades</span>
+                                    <button class="btn-small">Reabastecer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Lista de Productos -->
+                <section id="admin-products" class="admin-page">
+                    <div class="page-header">
+                        <h2>Gestión de Productos</h2>
+                        <button class="btn btn-primary" onclick="changeAdminPage('admin-new-product')">
+                            <i class="fas fa-plus"></i> Nuevo Producto
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Categoría</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>PROD-001</td>
+                                    <td><img src="https://phantom.pe/media/catalog/product/cache/c58c05327f55128aefac5642661cf3d1/4/9/4983164880748.jpg" alt="Goku" class="table-img"></td>
+                                    <td>Goku</td>
+                                    <td>$39</td>
+                                    <td>15</td>
+                                    <td>Dragon Ball Z</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PROD-002</td>
+                                    <td><img src="https://manga-imperial.fr/cdn/shop/files/S8f18342d19c743e6a276b7fe91692863B_1600x.webp?v=1707138238" alt="Naruto" class="table-img"></td>
+                                    <td>Naruto Uzumaki - Modo sabio</td>
+                                    <td>$54</td>
+                                    <td>3</td>
+                                    <td>Naruto Shippuden</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PROD-003</td>
+                                    <td><img src="https://i.pinimg.com/736x/c0/e2/37/c0e2378142e0424476f9458f6d02c250.jpg" alt="Luffy" class="table-img"></td>
+                                    <td>Monkey D. Luffy</td>
+                                    <td>$43</td>
+                                    <td>22</td>
+                                    <td>One Piece</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PROD-004</td>
+                                    <td><img src="https://cdn.shopify.com/s/files/1/0745/0243/9197/files/51FH3-JhwZL._AC_SL1000.jpg?v=1753999379" alt="Eren" class="table-img"></td>
+                                    <td>Eren Jaeger</td>
+                                    <td>$149</td>
+                                    <td>14</td>
+                                    <td>Attack on Titan</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>PROD-005</td>
+                                    <td><img src="https://i5.walmartimages.com/asr/b187ec64-09c0-4a85-91a9-1e55f73efb4a.f82370511a6ca17fca0fa0aec5155101.jpeg" alt="Eren" class="table-img"></td>
+                                    <td>Tanjiro Kamado</td>
+                                    <td>$150</td>
+                                    <td>15</td>
+                                    <td>Demon Slayer</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>PROD-006</td>
+                                    <td><img src="https://tienda.richirocko.com/wp-content/uploads/2024/12/FIGURE-178695_11.jpg" alt="Eren" class="table-img"></td>
+                                    <td>Himiko Toga</td>
+                                    <td>$199</td>
+                                    <td>9</td>
+                                    <td>My Hero Academia</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>PROD-007</td>
+                                    <td><img src="https://toysonejapan.com/cdn/shop/files/s-l1600_9_03ce6861-89f7-478d-b0e3-61f8f5663780_800x534.webp?v=1736514979" alt="Eren" class="table-img"></td>
+                                    <td>Hu tao</td>
+                                    <td>$249</td>
+                                    <td>2</td>
+                                    <td>Genshin Impact</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>PROD-008</td>
+                                    <td><img src="https://m.media-amazon.com/images/I/41ePgi+Cx2S._AC_SL1002_.jpg" alt="Eren" class="table-img"></td>
+                                    <td>Gojo Satoru</td>
+                                    <td>$29</td>
+                                    <td>43</td>
+                                    <td>Jujutsu Kaisen</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>PROD-009</td>
+                                    <td><img src="https://korasama.b-cdn.net/wp-content/uploads/2024/09/4582733440156-4-500x500.jpg" alt="Eren" class="table-img"></td>
+                                    <td>Alisa Mikhailovna Kujou</td>
+                                    <td>$50</td>
+                                    <td>0</td>
+                                    <td>Tokidoki Bosotto Russia-go de Dereru Tonari no Alya-san</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Nuevo Producto -->
+                <section id="admin-new-product" class="admin-page">
+                    <div class="page-header">
+                        <h2>Nuevo Producto</h2>
+                        <button class="btn btn-secondary" onclick="changeAdminPage('admin-products')">
+                            <i class="fas fa-arrow-left"></i> Volver a Productos
+                        </button>
+                    </div>
+                    
+                    <div class="form-container">
+                        <form id="productForm" class="admin-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-name">Nombre del Producto *</label>
+                                    <input type="text" id="product-name" name="name" required maxlength="100">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="product-price">Precio *</label>
+                                    <input type="number" id="product-price" name="price" required min="0" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-stock">Stock *</label>
+                                    <input type="number" id="product-stock" name="stock" required min="0">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="product-critical-stock">Stock Crítico</label>
+                                    <input type="number" id="product-critical-stock" name="critical_stock" min="0">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-category">Categoría *</label>
+                                <select id="product-category" name="category" required>
+                                    <option value="">Seleccione una categoría</option>
+                                    <option value="dragon-ball">Dragon Ball</option>
+                                    <option value="naruto">Naruto</option>
+                                    <option value="one-piece">One Piece</option>
+                                    <option value="attack-on-titan">Attack on Titan</option>
+                                    <option value="demon-slayer">Demon Slayer</option>
+                                    <option value="genshin-impact">Genshin Impact</option>
+                                    <option value="jujutsu-kaisen">Jujutsu Kaisen</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-description">Descripción</label>
+                                <textarea id="product-description" name="description" maxlength="500" rows="4"></textarea>
+                                <div class="char-counter">
+                                    <span id="product-description-count">0</span>/500 caracteres
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-image">Imagen del Producto</label>
+                                <input type="file" id="product-image" name="image" accept="image/*">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="reset" class="btn btn-secondary">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Lista de Usuarios -->
+                <section id="admin-users" class="admin-page">
+                    <div class="page-header">
+                        <h2>Gestión de Usuarios</h2>
+                        <button class="btn btn-primary" onclick="changeAdminPage('admin-new-user')">
+                            <i class="fas fa-plus"></i> Nuevo Usuario
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>RUN</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Tipo de Usuario</th>
+                                    <th>Región</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>19011022K</td>
+                                    <td>Carlos Miyazaki</td>
+                                    <td>carlos.miyazaki@profesor.duocuc.cl</td>
+                                    <td><span class="badge badge-admin">Administrador</span></td>
+                                    <td>Región Metropolitana</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>20567890-1</td>
+                                    <td>Ana Kobayashi</td>
+                                    <td>ana.kobayashi@duocuc.cl</td>
+                                    <td><span class="badge badge-seller">Vendedor</span></td>
+                                    <td>Valparaíso</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>18765432-3</td>
+                                    <td>Luis Takahashi</td>
+                                    <td>luis.takahashi@gmail.com</td>
+                                    <td><span class="badge badge-client">Cliente</span></td>
+                                    <td>Biobío</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>19876543-K</td>
+                                    <td>María Sato</td>
+                                    <td>maria.sato@gmail.com</td>
+                                    <td><span class="badge badge-client">Cliente</span></td>
+                                    <td>Maule</td>
+                                    <td>
+                                        <button class="btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Nuevo Usuario -->
+                <section id="admin-new-user" class="admin-page">
+                    <div class="page-header">
+                        <h2>Nuevo Usuario</h2>
+                        <button class="btn btn-secondary" onclick="changeAdminPage('admin-users')">
+                            <i class="fas fa-arrow-left"></i> Volver a Usuarios
+                        </button>
+                    </div>
+                    
+                    <div class="form-container">
+                        <form id="userForm" class="admin-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="user-run">RUN *</label>
+                                    <input type="text" id="user-run" name="run" required 
+                                           placeholder="19011022K (sin puntos ni guión)" 
+                                           minlength="7" maxlength="9" pattern="[0-9]{7,9}[0-9Kk]">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="user-type">Tipo de Usuario *</label>
+                                    <select id="user-type" name="user_type" required>
+                                        <option value="">Seleccione un tipo</option>
+                                        <option value="administrador">Administrador</option>
+                                        <option value="vendedor">Vendedor</option>
+                                        <option value="cliente">Cliente</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="user-name">Nombre *</label>
+                                    <input type="text" id="user-name" name="name" required maxlength="50">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="user-lastname">Apellidos *</label>
+                                    <input type="text" id="user-lastname" name="lastname" required maxlength="100">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="user-email">Correo Electrónico *</label>
+                                <input type="email" id="user-email" name="email" required maxlength="100">
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="user-region">Región *</label>
+                                    <select id="user-region" name="region" required>
+                                        <option value="">Seleccione una región</option>
+                                        <option value="arica">Arica y Parinacota</option>
+                                        <option value="tarapaca">Tarapacá</option>
+                                        <option value="antofagasta">Antofagasta</option>
+                                        <option value="atacama">Atacama</option>
+                                        <option value="coquimbo">Coquimbo</option>
+                                        <option value="valparaiso">Valparaíso</option>
+                                        <option value="metropolitana">Metropolitana de Santiago</option>
+                                        <option value="ohiggins">Libertador General Bernardo O'Higgins</option>
+                                        <option value="maule">Maule</option>
+                                        <option value="nuble">Ñuble</option>
+                                        <option value="biobio">Biobío</option>
+                                        <option value="araucania">La Araucanía</option>
+                                        <option value="losrios">Los Ríos</option>
+                                        <option value="loslagos">Los Lagos</option>
+                                        <option value="aysen">Aysén del General Carlos Ibáñez del Campo</option>
+                                        <option value="magallanes">Magallanes y de la Antártica Chilena</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="user-commune">Comuna *</label>
+                                    <select id="user-commune" name="commune" required disabled>
+                                        <option value="">Primero seleccione una región</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="user-address">Dirección *</label>
+                                <input type="text" id="user-address" name="address" required maxlength="300">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="user-birthdate">Fecha de Nacimiento (opcional)</label>
+                                <input type="date" id="user-birthdate" name="birthdate">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="reset" class="btn btn-secondary">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Usuario</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Logout -->
+                <section id="logout" class="admin-page">
+                    <div class="logout-container">
+                        <div class="logout-content">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <h2>Cerrando Sesión</h2>
+                            <p>Estás saliendo del panel de administración.</p>
+                            <p>Serás redirigido a la página de inicio.</p>
+                            <button class="btn btn-primary" onclick="changePage('home')">
+                                Volver al Inicio
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
