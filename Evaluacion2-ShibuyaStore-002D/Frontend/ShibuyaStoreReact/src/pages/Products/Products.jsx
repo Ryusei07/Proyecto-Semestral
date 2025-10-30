@@ -1,136 +1,184 @@
+import { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
+import ClientProductService from '../../services/ClientProductService';
 import './Products.css';
 
 const Products = () => {
   const { addToCart } = useCart();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // TODOS LOS 10 PRODUCTOS EN CLP
-  const products = [
-    {
-      id: 'PROD-001',
-      name: 'Goku',
-      price: 39000,
-      stock: 15,
-      category: 'Dragon Ball Z',
-      image: 'https://phantom.pe/media/catalog/product/cache/c58c05327f55128aefac5642661cf3d1/4/9/4983164880748.jpg'
-    },
-    {
-      id: 'PROD-002',
-      name: 'Naruto Uzumaki - Modo sabio',
-      price: 54000,
-      stock: 3,
-      category: 'Naruto Shippuden',
-      image: 'https://manga-imperial.fr/cdn/shop/files/S8f18342d19c743e6a276b7fe91692863B_1600x.webp?v=1707138238'
-    },
-    {
-      id: 'PROD-003',
-      name: 'Monkey D. Luffy',
-      price: 43000,
-      stock: 22,
-      category: 'One Piece',
-      image: 'https://i.pinimg.com/736x/c0/e2/37/c0e2378142e0424476f9458f6d02c250.jpg'
-    },
-    {
-      id: 'PROD-004',
-      name: 'Eren Jaeger',
-      price: 149000,
-      stock: 14,
-      category: 'Attack on Titan',
-      image: 'https://cdn.shopify.com/s/files/1/0745/0243/9197/files/51FH3-JhwZL._AC_SL1000.jpg?v=1753999379'
-    },
-    {
-      id: 'PROD-005',
-      name: 'Tanjiro Kamado',
-      price: 150000,
-      stock: 15,
-      category: 'Demon Slayer',
-      image: 'https://i5.walmartimages.com/asr/b187ec64-09c0-4a85-91a9-1e55f73efb4a.f82370511a6ca17fca0fa0aec5155101.jpeg'
-    },
-    {
-      id: 'PROD-006',
-      name: 'Himiko Toga',
-      price: 199000,
-      stock: 9,
-      category: 'My Hero Academia',
-      image: 'https://tienda.richirocko.com/wp-content/uploads/2024/12/FIGURE-178695_11.jpg'
-    },
-    {
-      id: 'PROD-007',
-      name: 'Hu Tao',
-      price: 249000,
-      stock: 2,
-      category: 'Genshin Impact',
-      image: 'https://toysonejapan.com/cdn/shop/files/s-l1600_9_03ce6861-89f7-478d-b0e3-61f8f5663780_800x534.webp?v=1736514979'
-    },
-    {
-      id: 'PROD-008',
-      name: 'Gojo Satoru',
-      price: 29000,
-      stock: 43,
-      category: 'Jujutsu Kaisen',
-      image: 'https://m.media-amazon.com/images/I/41ePgi+Cx2S._AC_SL1002_.jpg'
-    },
-    {
-      id: 'PROD-009',
-      name: 'Alisa Mikhailovna Kujou',
-      price: 50000,
-      stock: 0,
-      category: 'Romance',
-      image: 'https://korasama.b-cdn.net/wp-content/uploads/2024/09/4582733440156-4-500x500.jpg'
-    },
-    {
-      id: 'PROD-010',
-      name: 'All Might',
-      price: 15000,
-      stock: 0,
-      category: 'My Hero Academia',
-      image: 'https://i5.walmartimages.cl/asr/8f2bbbf5-92b3-4b37-8294-e89f067ba26c.59ff214d510bb6be35fd28dd1792e3cc.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF'
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  const loadProducts = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      console.log('🔄 Cargando productos desde la base de datos...');
+      
+      const productsData = await ClientProductService.getActiveProducts();
+      console.log('✅ Productos cargados:', productsData);
+      
+      setProducts(productsData);
+    } catch (err) {
+      console.error('❌ Error cargando productos:', err);
+      setError('No se pudieron cargar los productos. Verifica que el servidor esté ejecutándose.');
+      setProducts([]);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const handleAddToCart = (product) => {
-    addToCart(product);
+    // Adaptar el producto al formato que espera tu carrito
+    const cartProduct = {
+      id: product.id,
+      name: product.nombre,
+      price: product.precio,
+      stock: product.stock,
+      category: typeof product.categoria === 'object' ? product.categoria.nombre : product.categoria,
+      image: product.imagen || 'https://via.placeholder.com/300x300?text=Imagen+No+Disponible'
+    };
     
-    // Feedback visual
-    const button = document.querySelector(`[data-product-id="${product.id}"]`);
-    if (button) {
+    addToCart(cartProduct);
+    
+    // Feedback visual mejorado
+    const buttons = document.querySelectorAll(`[data-product-id="${product.id}"]`);
+    buttons.forEach(button => {
       const originalText = button.textContent;
+      const originalBackground = button.style.background;
+      
       button.textContent = '¡Añadido!';
       button.style.background = '#4caf50';
+      button.disabled = true;
       
       setTimeout(() => {
         button.textContent = originalText;
-        button.style.background = '';
+        button.style.background = originalBackground;
+        button.disabled = false;
       }, 1500);
+    });
+  };
+
+  // Función para formatear precio
+  const formatPrice = (price) => {
+    return `$${price?.toLocaleString('es-CL') || '0'}`;
+  };
+
+  // Función para obtener nombre de categoría
+  const getCategoryName = (categoria) => {
+    if (typeof categoria === 'object' && categoria !== null) {
+      return categoria.nombre;
     }
+    return categoria || 'Sin categoría';
   };
 
   return (
     <section id="products">
       <div className="container">
         <h2 className="section-title">Nuestros Productos</h2>
-        <p className="products-count">Mostrando {products.length} productos</p>
+        
+        {/* Estado de carga */}
+        {loading && (
+          <div className="loading-state">
+            <div className="spinner"></div>
+            <p>Cargando productos desde la base de datos...</p>
+          </div>
+        )}
+
+        {/* Estado de error */}
+        {error && (
+          <div className="error-state">
+            <div className="error-content">
+              <i className="fas fa-exclamation-triangle"></i>
+              <h3>Error al cargar productos</h3>
+              <p>{error}</p>
+              <button onClick={loadProducts} className="btn btn-retry">
+                <i className="fas fa-redo"></i>
+                Reintentar
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Contador de productos */}
+        {!loading && !error && (
+          <p className="products-count">
+            Mostrando {products.length} producto{products.length !== 1 ? 's' : ''} 
+            {products.length > 0 ? ' disponibles' : ''}
+          </p>
+        )}
+
+        {/* Grid de productos */}
         <div className="products-grid">
           {products.map(product => (
             <div key={product.id} className="product-card">
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                <img 
+                  src={product.imagen || 'https://via.placeholder.com/300x300?text=Imagen+No+Disponible'} 
+                  alt={product.nombre}
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/300x300?text=Imagen+No+Disponible';
+                  }}
+                />
+                {/* Badge de stock */}
+                {product.stock <= 3 && product.stock > 0 && (
+                  <span className="stock-badge low-stock">¡Últimas unidades!</span>
+                )}
+                {product.stock === 0 && (
+                  <span className="stock-badge out-of-stock">Agotado</span>
+                )}
               </div>
+              
               <div className="product-info">
-                <h3>{product.name}</h3>
-                <p>{product.category}</p>
-                <div className="product-price">${product.price.toLocaleString('es-CL')}</div>
+                <h3>{product.nombre}</h3>
+                <p className="product-category">{getCategoryName(product.categoria)}</p>
+                
+                {/* Descripción (si existe) */}
+                {product.descripcion && (
+                  <p className="product-description">
+                    {product.descripcion.length > 100 
+                      ? `${product.descripcion.substring(0, 100)}...` 
+                      : product.descripcion
+                    }
+                  </p>
+                )}
+                
+                <div className="product-details">
+                  <div className="product-price">{formatPrice(product.precio)}</div>
+                  <div className="product-stock">
+                    {product.stock > 0 ? `${product.stock} disponibles` : 'Sin stock'}
+                  </div>
+                </div>
+                
                 <button 
-                  className="btn add-to-cart"
+                  className={`btn add-to-cart ${product.stock === 0 ? 'disabled' : ''}`}
                   onClick={() => handleAddToCart(product)}
                   data-product-id={product.id}
+                  disabled={product.stock === 0 || loading}
                 >
-                  Añadir al carrito
+                  {product.stock === 0 ? 'Agotado' : 'Añadir al carrito'}
                 </button>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Estado vacío */}
+        {!loading && !error && products.length === 0 && (
+          <div className="empty-state">
+            <i className="fas fa-box-open"></i>
+            <h3>No hay productos disponibles</h3>
+            <p>No se encontraron productos activos en la base de datos.</p>
+            <button onClick={loadProducts} className="btn">
+              <i className="fas fa-redo"></i>
+              Reintentar
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
