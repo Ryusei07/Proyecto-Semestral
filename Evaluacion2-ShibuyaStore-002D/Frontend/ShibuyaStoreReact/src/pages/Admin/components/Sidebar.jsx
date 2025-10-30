@@ -3,17 +3,11 @@ import './Sidebar.css';
 const Sidebar = ({ currentSection, setCurrentSection, isOpen, onLogout }) => {
   const menuItems = [
     { id: 'dashboard', icon: 'fas fa-home', label: 'Inicio' },
-    { id: 'products', icon: 'fas fa-box', label: 'Listar Productos' },
-    { id: 'new-product', icon: 'fas fa-plus-circle', label: 'Nuevo Producto' },
-    { id: 'users', icon: 'fas fa-users', label: 'Listar Usuarios' },
-    { id: 'new-user', icon: 'fas fa-user-plus', label: 'Nuevo Usuario' }
+    { id: 'products', icon: 'fas fa-box', label: 'Productos' },
+    { id: 'users', icon: 'fas fa-users', label: 'Usuarios' }
   ];
 
   const handleItemClick = (itemId) => {
-    if (itemId === 'new-product' || itemId === 'new-user') {
-      alert(`Funcionalidad: ${itemId}`);
-      return;
-    }
     setCurrentSection(itemId);
   };
 
@@ -35,42 +29,28 @@ const Sidebar = ({ currentSection, setCurrentSection, isOpen, onLogout }) => {
           <span>Inicio</span>
         </button>
 
-        {/* Sección Productos */}
-        <div className="nav-section">Productos</div>
+        {/* Sección Productos - SOLO Listar Productos */}
+        <div className="nav-section">Gestión de Productos</div>
         <button 
           className={`nav-item ${currentSection === 'products' ? 'active' : ''}`}
           onClick={() => handleItemClick('products')}
         >
           <i className="fas fa-box"></i>
-          <span>Listar Productos</span>
-        </button>
-        <button 
-          className="nav-item"
-          onClick={() => handleItemClick('new-product')}
-        >
-          <i className="fas fa-plus-circle"></i>
-          <span>Nuevo Producto</span>
+          <span>Gestionar Productos</span>
         </button>
 
-        {/* Sección Usuarios */}
-        <div className="nav-section">Usuarios</div>
+        {/* Sección Usuarios - SOLO Listar Usuarios */}
+        <div className="nav-section">Gestión de Usuarios</div>
         <button 
           className={`nav-item ${currentSection === 'users' ? 'active' : ''}`}
           onClick={() => handleItemClick('users')}
         >
           <i className="fas fa-users"></i>
-          <span>Listar Usuarios</span>
-        </button>
-        <button 
-          className="nav-item"
-          onClick={() => handleItemClick('new-user')}
-        >
-          <i className="fas fa-user-plus"></i>
-          <span>Nuevo Usuario</span>
+          <span>Gestionar Usuarios</span>
         </button>
 
         {/* Sección General */}
-        <div className="nav-section">General</div>
+        <div className="nav-section">Sistema</div>
         <button 
           className="nav-item logout-item"
           onClick={onLogout}
