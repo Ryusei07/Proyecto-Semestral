@@ -1,0 +1,29 @@
+/* ===== estilos administrador ===== */
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7f9;
+}
+
+.admin-main {
+  flex: 1;
+  margin-left: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 25px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-main {
+    margin-left: 0;
+  }
+  
+  .admin-content {
+    padding: 15px;
+  }
+}

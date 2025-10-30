@@ -1,0 +1,61 @@
+.admin-header {
+  height: var(--header-height);
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  margin-right: 15px;
+  cursor: pointer;
+  color: var(--dark-color);
+  display: none;
+}
+
+.admin-header h1 {
+  font-size: 1.5rem;
+  color: var(--dark-color);
+  margin: 0;
+}
+
+.admin-name {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: var(--dark-color);
+}
+
+.admin-name i {
+  margin-right: 8px;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 0 15px;
+  }
+  
+  .sidebar-toggle {
+    display: block;
+  }
+  
+  .admin-header h1 {
+    font-size: 1.2rem;
+  }
+}
