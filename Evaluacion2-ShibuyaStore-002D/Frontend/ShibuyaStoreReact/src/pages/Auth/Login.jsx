@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ setCurrentPage }) => {
+// 1. Obtenemos la dirección de tu Backend desde el archivo .env
+// Asegúrate de que tu archivo .env tenga: VITE_API_URL=http://localhost:8080
+const API_URL = import.meta.env.VITE_API_URL;
+
+const Login = () => { // Quitamos la prop "setCurrentPage", ya que usamos 'navigate'
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Estado para el botón "cargando"
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,25 +22,54 @@ const Login = ({ setCurrentPage }) => {
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  // 2. Modificamos el handleSubmit para que sea "async" y llame a la API
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Credenciales específicos para admin
-    const adminCredentials = {
-      email: 'admin@shibuyastore.cl',
-      password: 'admin123'
-    };
+    setError('');
+    setIsLoading(true);
 
-    // Validar credenciales
-    if (formData.email === adminCredentials.email && formData.password === adminCredentials.password) {
-      // Redirigir al admin
-      navigate('/admin');
-    } else if (formData.email && formData.password) {
-      // Login normal de usuario
-      alert('Inicio de sesión exitoso como usuario');
-      setCurrentPage('home');
-    } else {
+    // Validación simple
+    if (!formData.email || !formData.password) {
       setError('Por favor completa todos los campos');
+      setIsLoading(false);
+      return;
+    }
+
+    // 3. ¡AQUÍ ESTÁ LA CONEXIÓN AL BACKEND!
+    try {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          contrasena: formData.password // ¡Importante! Debe llamarse 'contrasena' como tu DTO de Spring
+        }),
+      });
+
+      // 4. Manejamos la respuesta del servidor
+      if (response.ok) {
+        // ¡Éxito! El backend nos dio un 200 OK
+        const adminData = await response.json();
+        console.log("Login exitoso:", adminData);
+        
+        // Opcional: Guardar datos del admin en localStorage (para saber que está logueado)
+        localStorage.setItem('adminUser', JSON.stringify(adminData)); 
+
+        navigate('/admin'); // Redirigir al dashboard de admin
+      } else {
+        // ¡Error! El backend nos dio un 401 (No autorizado) o 403 (Prohibido)
+        console.error("Error de login: Credenciales incorrectas o rol no autorizado");
+        setError('Credenciales incorrectas o rol no autorizado.');
+      }
+
+    } catch (err) {
+      // 5. Manejamos errores de red (ej: el backend no está encendido)
+      console.error("Error de conexión:", err);
+      setError('No se pudo conectar con el servidor. Revisa si el backend está encendido.');
+    } finally {
+      setIsLoading(false); // Dejar de cargar, sin importar si falló o tuvo éxito
     }
   };
 
@@ -61,6 +95,7 @@ const Login = ({ setCurrentPage }) => {
                   onChange={handleChange}
                   required
                   placeholder="tu.email@ejemplo.com"
+                  disabled={isLoading} // Deshabilitar mientras carga
                 />
               </div>
               
@@ -74,20 +109,22 @@ const Login = ({ setCurrentPage }) => {
                   onChange={handleChange}
                   required
                   placeholder="Ingresa tu contraseña"
+                  disabled={isLoading} // Deshabilitar mientras carga
                 />
               </div>
 
+              {/* Muestra el error si existe */}
               {error && <div className="error-message" style={{color: '#dc3545', padding: '10px', marginBottom: '15px', textAlign: 'center'}}>{error}</div>}
 
-              <button type="submit" className="btn btn-full">
-                Iniciar Sesión
+              {/* 6. Modificamos el botón para que muestre "Iniciando..." */}
+              <button type="submit" className="btn btn-full" disabled={isLoading}>
+                {isLoading ? 'Iniciando...' : 'Iniciar Sesión'}
               </button>
               
               <div className="auth-links">
-                <p>¿No tienes cuenta? <a href="#" onClick={() => setCurrentPage('register')}>Regístrate aquí</a></p>
+                {/* 7. Actualizamos esto para que use 'navigate' (si tienes un componente de registro) */}
+                <p>¿No tienes cuenta? <a href="#" onClick={() => navigate('/register')}>Regístrate aquí</a></p>
                 <p><a href="#">¿Olvidaste tu contraseña?</a></p>
-                
-                {/* CREDENCIALES ELIMINADAS - Ya no son visibles */}
               </div>
             </form>
           </div>
