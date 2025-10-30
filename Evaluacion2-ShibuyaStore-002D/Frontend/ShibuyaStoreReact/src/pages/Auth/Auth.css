@@ -1,0 +1,174 @@
+/* ===== ESTILOS PARA FORMULARIOS DE AUTENTICACIÓN ===== */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 40px 0;
+}
+
+.auth-card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header .logo-icon {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.auth-header h2 {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.auth-header h3 {
+  color: var(--dark-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.auth-card .form-group {
+  margin-bottom: 20px;
+}
+
+.auth-card .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--dark-color);
+}
+
+.auth-card .form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.auth-card .form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+}
+
+.auth-card .form-group input.invalid {
+  border-color: #dc3545;
+}
+
+.auth-card .form-group input.invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.auth-card .error-message {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+  min-height: 20px;
+}
+
+.auth-card .checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.auth-card .checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin-top: 3px;
+}
+
+.auth-card .checkbox-group input[type="checkbox"].invalid {
+  outline: 2px solid #dc3545;
+  outline-offset: 2px;
+}
+
+.auth-card .checkbox-group label {
+  margin-bottom: 0;
+  font-weight: normal;
+}
+
+.auth-card .btn-full {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.auth-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.auth-links p {
+  margin: 10px 0;
+  color: #666;
+}
+
+.auth-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
+}
+
+/* Loading state para el botón */
+.btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive para auth */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 30px 20px;
+    margin: 0 15px;
+  }
+  
+  .auth-header .logo-icon {
+    font-size: 2.5rem;
+  }
+  
+  .auth-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .auth-header h3 {
+    font-size: 1.3rem;
+  }
+}
