@@ -37,7 +37,7 @@ Gestión de Estado: Hooks de React (useState, useEffect)
 Dependencias: npm
 
 1. Instrucciones de instalación
-Para levantar este proyecto en un entorno local, sigue estos 4 pasos:
+Para levantar este proyecto en un entorno local:
 Paso 1: Clonar el Repositorio
 Paso 2: Configurar la Base de Datos (MySQL)
 Navega a src/main/resources/application.properties.
