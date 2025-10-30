@@ -13,3 +13,10 @@ Modifica el archivo src/main/resources/application.properties. por problemas de 
 Conectarse a la Base de Datos por MySQL Workbrench (el puerto tiene que ser igual que definiste en el localhost:"...." de /resources/application.properties.). Para luego crear una nueva schema llamada "shibuyabase".
 Ejecuta la aplicación Spring Boot.
 El backend estará sirviendo en: http://localhost:8080
+
+2. Iniciar el Frontend (Cliente)
+Abre el proyecto Frontend (SHIBUYASTOREREACT) en una nueva terminal/ventana.
+Instala las dependencias (solo la primera vez): "npm install"
+Asegúrate de que el archivo .env en la raíz del proyecto contenga la dirección del backend: http://localhost:8080
+Inicia el servidor de desarrollo: "npm run dev" en una terminal
+El frontend estará visible en: http://localhost:5173 (o el puerto que indique Vite).
