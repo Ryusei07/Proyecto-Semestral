@@ -1,43 +1,48 @@
+import { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
+import ClientProductService from '../../services/ClientProductService';
 import './Home.css';
 
 const Home = ({ setCurrentPage }) => {
   const { addToCart } = useCart();
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Productos destacados en CLP
-  const featuredProducts = [
-    {
-      id: 'PROD-001',
-      name: 'Goku',
-      price: 39000,
-      category: 'Dragon Ball Z',
-      image: 'https://phantom.pe/media/catalog/product/cache/c58c05327f55128aefac5642661cf3d1/4/9/4983164880748.jpg'
-    },
-    {
-      id: 'PROD-002',
-      name: 'Naruto Uzumaki - Modo sabio',
-      price: 54000,
-      category: 'Naruto Shippuden',
-      image: 'https://manga-imperial.fr/cdn/shop/files/S8f18342d19c743e6a276b7fe91692863B_1600x.webp?v=1707138238'
-    },
-    {
-      id: 'PROD-003',
-      name: 'Monkey D. Luffy',
-      price: 43000,
-      category: 'One Piece',
-      image: 'https://i.pinimg.com/736x/c0/e2/37/c0e2378142e0424476f9458f6d02c250.jpg'
-    },
-    {
-      id: 'PROD-004',
-      name: 'Eren Jaeger',
-      price: 149000,
-      category: 'Attack on Titan',
-      image: 'https://cdn.shopify.com/s/files/1/0745/0243/9197/files/51FH3-JhwZL._AC_SL1000.jpg?v=1753999379'
+  useEffect(() => {
+    loadFeaturedProducts();
+  }, []);
+
+  const loadFeaturedProducts = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      console.log('🔄 Cargando productos destacados...');
+      
+      const products = await ClientProductService.getFeaturedProducts();
+      console.log('✅ Productos cargados:', products);
+      
+      setFeaturedProducts(products);
+    } catch (err) {
+      console.error('❌ Error:', err);
+      setError('No se pudieron cargar los productos');
+      setFeaturedProducts([]);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
-  const handleAddToCart = (product) => {
-    addToCart(product);
+  const handleAddToCart = (product, event) => {
+    // Adaptar el producto al formato que espera tu carrito
+    const cartProduct = {
+      id: product.id,
+      name: product.nombre,
+      price: product.precio,
+      category: typeof product.categoria === 'object' ? product.categoria.nombre : product.categoria,
+      image: product.imagen
+    };
+    
+    addToCart(cartProduct);
     
     // Feedback visual
     const button = event.target;
@@ -49,6 +54,11 @@ const Home = ({ setCurrentPage }) => {
       button.textContent = originalText;
       button.style.background = '';
     }, 1500);
+  };
+
+  // Formatear precio
+  const formatPrice = (price) => {
+    return `$${price?.toLocaleString('es-CL') || '0'}`;
   };
 
   return (
@@ -72,26 +82,75 @@ const Home = ({ setCurrentPage }) => {
         </div>
 
         <h2 className="section-title">Productos Destacados</h2>
+
+        {loading && (
+          <div className="loading-state">
+            <div className="spinner"></div>
+            <p>Cargando productos...</p>
+          </div>
+        )}
+
+        {error && (
+          <div className="error-state">
+            <p>❌ {error}</p>
+            <button onClick={loadFeaturedProducts} className="btn">
+              Reintentar
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && featuredProducts.length === 0 && (
+          <div className="empty-state">
+            <p>No hay productos disponibles en este momento</p>
+          </div>
+        )}
+
         <div className="products-grid">
           {featuredProducts.map(product => (
             <div key={product.id} className="product-card">
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                <img 
+                  src={product.imagen || '/placeholder-image.jpg'} 
+                  alt={product.nombre}
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/300x300?text=Imagen+No+Disponible';
+                  }}
+                />
               </div>
               <div className="product-info">
-                <h3>{product.name}</h3>
-                <p>{product.category}</p>
-                <div className="product-price">${product.price.toLocaleString('es-CL')}</div>
+                <h3>{product.nombre}</h3>
+                <p className="product-category">
+                  {typeof product.categoria === 'object' 
+                    ? product.categoria.nombre 
+                    : product.categoria || 'Sin categoría'
+                  }
+                </p>
+                <div className="product-stock">
+                  {product.stock > 0 ? `${product.stock} disponibles` : 'Agotado'}
+                </div>
+                <div className="product-price">{formatPrice(product.precio)}</div>
                 <button 
-                  className="btn add-to-cart"
+                  className={`btn add-to-cart ${product.stock === 0 ? 'disabled' : ''}`}
                   onClick={(e) => handleAddToCart(product, e)}
+                  disabled={product.stock === 0}
                 >
-                  Añadir al carrito
+                  {product.stock === 0 ? 'Agotado' : 'Añadir al carrito'}
                 </button>
               </div>
             </div>
           ))}
         </div>
+
+        {!loading && featuredProducts.length > 0 && (
+          <div className="view-more-section">
+            <button 
+              className="btn view-more-btn"
+              onClick={() => setCurrentPage('products')}
+            >
+              Ver todos los productos
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
