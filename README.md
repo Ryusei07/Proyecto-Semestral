@@ -8,7 +8,6 @@ Para que la aplicación funcione, ambos servicios (Backend y Frontend) deben est
 
 1. Iniciar el Backend (Servidor)
 Abre el proyecto Backend (shibuyastorebackend).
-
 Modifica el archivo src/main/resources/application.properties. por problemas de ordenador del desarrollador Diego, en "PARAMETROS DE CONEXION". cambiar el puerto al que te indique tu aplicacion XAMPP, originalmente el proyecto correra en localhost:3307 de sql, cambiar 3307 a lo que indique tu XAMPP.
 Conectarse a la Base de Datos por MySQL Workbrench (el puerto tiene que ser igual que definiste en el localhost:"...." de /resources/application.properties.). Para luego crear una nueva schema llamada "shibuyabase".
 Ejecuta la aplicación Spring Boot.
