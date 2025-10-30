@@ -10,6 +10,8 @@ INSERT INTO categorias (nombre) VALUES ('Attack on Titan') ON DUPLICATE KEY UPDA
 
 -- Insertar Usuario Administrador
 -- Usuario Administrador Diego
+
+-- LAs contraseñas fueron genedaras en la pagina web: https://bcrypt-generator.com/
 -- La contraseña es "diegoadmin123" para el administrador diego Admin con el correo diegoadmin@shibuyastore.cl(encriptada con BCrypt)
 INSERT INTO usuarios (nombre, email, contrasena, rol, estado, fecha_creacion) 
 VALUES ('Diego Admin', 'diegoadmin@shibuyastore.cl', '$2a$12$vYsaq7aQmFVLoI2O6YCHk.gFa0l2uzl7urNjzv1HcmOR9ZCtEZDFy', 'super-admin', 'activo', NOW())
@@ -19,6 +21,23 @@ ON DUPLICATE KEY UPDATE email=email;
 -- La contraseña para Gabriel es: gabrieladmin123
 INSERT INTO usuarios (nombre, email, contrasena, rol, estado, fecha_creacion) 
 VALUES ('Gabriel Admin', 'gabrieladmin@shibuyastore.cl', '$2a$12$VLE.dX.HOqudiXyDNTmWt.7HxiscdWVFimJQqbXhuFH5.ao9CCjGS', 'super-admin', 'activo', NOW())
+ON DUPLICATE KEY UPDATE email=email;
+
+-- Usuarios normales
+Insert INTO usuarios (nombre, email, contrasena, rol, estado, fecha_creacion) 
+VALUES ('Marco Polo', 'marcopolo@shibuyastore.cl', '$2a$12$rjodSpqZe67QLkg3SfsqdeZy06s5cejDbrJQZYskRdBf.rXQuG69C', 'cliente', 'activo', NOW())
+ON DUPLICATE KEY UPDATE email=email;
+
+Insert INTO usuarios (nombre, email, contrasena, rol, estado, fecha_creacion) 
+VALUES ('Gabriel Avendaño', 'gabrielavendaño@shibuyastore.cl', '$2a$12$GmvNCvHHynLVp.7OU5NmPurZpvj1C6w9ebmTfD6LR6IK4mIod/XnS', 'cliente', 'activo', NOW())
+ON DUPLICATE KEY UPDATE email=email;
+
+Insert INTO usuarios (nombre, email, contrasena, rol, estado, fecha_creacion) 
+VALUES ('Josue Ramirez', 'josueramirez@shibuyastore.cl', '$2a$12$h48VcowVMTMAt5dHLJbM7OouUSZsVfRyEcwYZoc7X4YI6rGab72W6', 'cliente', 'activo', NOW())
+ON DUPLICATE KEY UPDATE email=email;
+
+Insert INTO usuarios (nombre, email, contrasena, rol, estado, fecha_creacion) 
+VALUES ('Antonia Gonsalez', 'antoniagonsalez@shibuyastore.cl', '$2a$12$doQRd/vDbFQH6bTo0FqnHeqoH0LkYnh9cJUvVQ1LevLHEXddbmrwi', 'cliente', 'activo', NOW())
 ON DUPLICATE KEY UPDATE email=email;
 
 -- Insertar Productos (Mínimo 15)
