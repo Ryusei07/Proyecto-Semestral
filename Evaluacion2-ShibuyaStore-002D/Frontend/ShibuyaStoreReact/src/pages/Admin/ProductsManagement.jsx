@@ -1,165 +1,278 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import ProductService from "/src/services/ProductService"; // ✅ Con mayúscula
+import ProductForm from './ProductForm';
 import './ProductsManagement.css';
 
 const ProductsManagement = () => {
-  const [products] = useState([
-    {
-      id: 'PROD-001',
-      name: 'Goku',
-      price: 39000,
-      stock: 15,
-      category: 'Dragon Ball Z',
-      image: 'https://phantom.pe/media/catalog/product/cache/c58c05327f55128aefac5642661cf3d1/4/9/4983164880748.jpg'
-    },
-    {
-      id: 'PROD-002',
-      name: 'Naruto Uzumaki - Modo sabio',
-      price: 54000,
-      stock: 3,
-      category: 'Naruto Shippuden',
-      image: 'https://manga-imperial.fr/cdn/shop/files/S8f18342d19c743e6a276b7fe91692863B_1600x.webp?v=1707138238'
-    },
-    {
-      id: 'PROD-003',
-      name: 'Monkey D. Luffy',
-      price: 43000,
-      stock: 22,
-      category: 'One Piece',
-      image: 'https://i.pinimg.com/736x/c0/e2/37/c0e2378142e0424476f9458f6d02c250.jpg'
-    },
-    {
-      id: 'PROD-004',
-      name: 'Eren Jaeger',
-      price: 149000,
-      stock: 14,
-      category: 'Attack on Titan',
-      image: 'https://cdn.shopify.com/s/files/1/0745/0243/9197/files/51FH3-JhwZL._AC_SL1000.jpg?v=1753999379'
-    },
-    {
-      id: 'PROD-005',
-      name: 'Tanjiro Kamado',
-      price: 150000,
-      stock: 15,
-      category: 'Demon Slayer',
-      image: 'https://i5.walmartimages.com/asr/b187ec64-09c0-4a85-91a9-1e55f73efb4a.f82370511a6ca17fca0fa0aec5155101.jpeg'
-    },
-    {
-      id: 'PROD-006',
-      name: 'Himiko Toga',
-      price: 199000,
-      stock: 9,
-      category: 'My Hero Academia',
-      image: 'https://tienda.richirocko.com/wp-content/uploads/2024/12/FIGURE-178695_11.jpg'
-    },
-    {
-      id: 'PROD-007',
-      name: 'Hu Tao',
-      price: 249000,
-      stock: 2,
-      category: 'Genshin Impact',
-      image: 'https://toysonejapan.com/cdn/shop/files/s-l1600_9_03ce6861-89f7-478d-b0e3-61f8f5663780_800x534.webp?v=1736514979'
-    },
-    {
-      id: 'PROD-008',
-      name: 'Gojo Satoru',
-      price: 29000,
-      stock: 43,
-      category: 'Jujutsu Kaisen',
-      image: 'https://m.media-amazon.com/images/I/41ePgi+Cx2S._AC_SL1002_.jpg'
-    },
-    {
-      id: 'PROD-009',
-      name: 'Alisa Mikhailovna Kujou',
-      price: 50000,
-      stock: 0,
-      category: 'Romance',
-      image: 'https://korasama.b-cdn.net/wp-content/uploads/2024/09/4582733440156-4-500x500.jpg'
-    },
-    {
-      id: 'PROD-010',
-      name: 'All Might',
-      price: 15000,
-      stock: 0,
-      category: 'My Hero Academia',
-      image: 'https://i5.walmartimages.cl/asr/8f2bbbf5-92b3-4b37-8294-e89f067ba26c.59ff214d510bb6be35fd28dd1792e3cc.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF'
-    }
-  ]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [backendStatus, setBackendStatus] = useState('checking');
 
-  const handleEdit = (productId) => {
-    alert(`Editando producto: ${productId}`);
-  };
-
-  const handleDelete = (productId) => {
-    if (window.confirm(`¿Estás seguro de eliminar el producto ${productId}?`)) {
-      alert(`Producto ${productId} eliminado`);
+  // Cargar productos
+  const loadProducts = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      setBackendStatus('checking');
+      
+      console.log('🔄 Iniciando carga de productos...');
+      const productsData = await ProductService.getAllProducts();
+      
+      console.log('✅ Productos recibidos:', productsData);
+      setProducts(productsData);
+      setBackendStatus('connected');
+      
+    } catch (err) {
+      console.error('❌ Error:', err);
+      setError('No se pudo cargar los productos: ' + err.message);
+      setBackendStatus('demo');
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  // Crear producto
+  const handleCreateProduct = async (productData) => {
+    try {
+      await ProductService.createProduct(productData);
+      await loadProducts();
+      setShowForm(false);
+      alert('✅ Producto creado exitosamente!');
+    } catch (err) {
+      alert('❌ Error al crear producto: ' + err.message);
+      throw err;
+    }
+  };
+
+  // Actualizar producto
+  const handleUpdateProduct = async (productData) => {
+    try {
+      await ProductService.updateProduct(editingProduct.id, productData);
+      await loadProducts();
+      setEditingProduct(null);
+      setShowForm(false);
+      alert('✅ Producto actualizado exitosamente!');
+    } catch (err) {
+      alert('❌ Error al actualizar producto: ' + err.message);
+      throw err;
+    }
+  };
+
+  // Eliminar producto
+  const handleDeleteProduct = async (id, productName) => {
+    if (window.confirm(`¿Estás seguro de que quieres eliminar "${productName}"?`)) {
+      try {
+        await ProductService.deleteProduct(id);
+        await loadProducts();
+        alert('✅ Producto eliminado exitosamente!');
+      } catch (err) {
+        alert('❌ Error al eliminar producto: ' + err.message);
+      }
+    }
+  };
+
+  // Editar producto
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    setShowForm(true);
+  };
+
+  // Cancelar
+  const handleCancelForm = () => {
+    setShowForm(false);
+    setEditingProduct(null);
+  };
+
+  if (showForm) {
+    return (
+      <ProductForm
+        product={editingProduct}
+        onSave={editingProduct ? handleUpdateProduct : handleCreateProduct}
+        onCancel={handleCancelForm}
+      />
+    );
+  }
 
   return (
     <div className="products-management">
+      {/* Header con estado */}
       <div className="page-header">
-        <h2>Gestión de Productos</h2>
-        <button className="btn btn-primary">
-          <i className="fas fa-plus"></i> Nuevo Producto
+        <div>
+          <h2>Gestión de Productos</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '5px' }}>
+            <span style={{
+              padding: '4px 8px',
+              borderRadius: '4px',
+              fontSize: '0.8rem',
+              fontWeight: 'bold',
+              background: backendStatus === 'connected' ? '#d4edda' : '#fff3cd',
+              color: backendStatus === 'connected' ? '#155724' : '#856404',
+              border: `1px solid ${backendStatus === 'connected' ? '#c3e6cb' : '#ffeaa7'}`
+            }}>
+              {backendStatus === 'connected' ? '✅ Conectado' : '⚠️ Demo'}
+            </span>
+            <span style={{ color: '#666', fontSize: '0.9rem' }}>
+              {backendStatus === 'connected' ? 'Base de datos MySQL' : 'Datos de demostración'}
+            </span>
+          </div>
+        </div>
+        <button 
+          className="btn btn-primary"
+          onClick={() => setShowForm(true)}
+          disabled={loading}
+        >
+          <i className="fas fa-plus"></i>
+          Nuevo Producto
         </button>
       </div>
-      
-      <div className="table-info">
-        <p>Mostrando <strong>{products.length}</strong> productos en total</p>
-      </div>
-      
-      <div className="table-container">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Imagen</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Stock</th>
-              <th>Categoría</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map(product => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
-                <td>
-                  <img src={product.image} alt={product.name} className="table-img" />
-                </td>
-                <td><strong>{product.name}</strong></td>
-                <td>${product.price.toLocaleString('es-CL')}</td>
-                <td>
-                  <span className={
-                    product.stock === 0 ? 'stock-out' : 
-                    product.stock <= 5 ? 'stock-warning' : 'stock-ok'
-                  }>
-                    {product.stock} unidades
-                  </span>
-                </td>
-                <td>{product.category}</td>
-                <td>
-                  <button 
-                    className="btn-icon"
-                    onClick={() => handleEdit(product.id)}
-                    title="Editar"
-                  >
-                    <i className="fas fa-edit"></i>
-                  </button>
-                  <button 
-                    className="btn-icon btn-danger"
-                    onClick={() => handleDelete(product.id)}
-                    title="Eliminar"
-                  >
-                    <i className="fas fa-trash"></i>
-                  </button>
-                </td>
+
+      {/* Mensajes de estado */}
+      {backendStatus === 'demo' && (
+        <div style={{
+          background: '#fff3cd',
+          border: '1px solid #ffeaa7',
+          borderRadius: '8px',
+          padding: '15px',
+          marginBottom: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px'
+        }}>
+          <i className="fas fa-info-circle" style={{ color: '#856404' }}></i>
+          <div>
+            <strong>Modo de demostración</strong>
+            <p style={{ margin: '5px 0 0 0' }}>
+              {error ? `Error: ${error}` : 'Mostrando datos de ejemplo. Para conectar con el backend real, inicia el servidor Spring Boot en puerto 8080.'}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {loading && (
+        <div style={{
+          textAlign: 'center',
+          padding: '40px',
+          background: 'white',
+          borderRadius: '10px',
+          marginBottom: '20px'
+        }}>
+          <i className="fas fa-spinner fa-spin" style={{ fontSize: '2rem', color: 'var(--primary-color)', marginBottom: '10px' }}></i>
+          <p>{backendStatus === 'checking' ? 'Conectando con el backend...' : 'Cargando productos...'}</p>
+        </div>
+      )}
+
+      {/* Tabla de productos */}
+      {!loading && (
+        <div className="table-container">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {products.map(product => (
+                <tr key={product.id}>
+                  <td style={{ fontWeight: 'bold', color: '#666' }}>#{product.id}</td>
+                  <td>
+                    {product.imagen ? (
+                      <img 
+                        src={product.imagen} 
+                        alt={product.nombre}
+                        className="table-img"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
+                    ) : null}
+                    <div className="no-image-placeholder" style={{ display: product.imagen ? 'none' : 'flex' }}>
+                      <i className="fas fa-image"></i>
+                    </div>
+                  </td>
+                  <td style={{ fontWeight: '600' }}>{product.nombre}</td>
+                  <td>
+                    <div className="description-truncate" title={product.descripcion}>
+                      {product.descripcion}
+                    </div>
+                  </td>
+                  <td style={{ fontWeight: 'bold', color: '#28a745' }}>
+                    ${product.precio?.toLocaleString('es-CL')}
+                  </td>
+                  <td>
+                    <span className={product.stock <= 5 ? 'stock-warning' : ''}>
+                      {product.stock} unidades
+                    </span>
+                  </td>
+                  <td>
+                    <span className="category-badge">
+                      {typeof product.categoria === 'object' 
+                        ? product.categoria.nombre 
+                        : product.categoria || 'Sin categoría'
+                      }
+                    </span>
+                  </td>
+                  <td>
+                    <div className="action-buttons">
+                      <button 
+                        className="btn-icon"
+                        onClick={() => handleEditProduct(product)}
+                        title="Editar"
+                      >
+                        <i className="fas fa-edit"></i>
+                      </button>
+                      <button 
+                        className="btn-icon btn-danger"
+                        onClick={() => handleDeleteProduct(product.id, product.nombre)}
+                        title="Eliminar"
+                      >
+                        <i className="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {products.length === 0 && !loading && (
+            <div className="empty-state">
+              <i className="fas fa-box-open"></i>
+              <h3>No hay productos registrados</h3>
+              <p>Comienza agregando tu primer producto</p>
+              <button 
+                className="btn btn-primary"
+                onClick={() => setShowForm(true)}
+              >
+                <i className="fas fa-plus"></i>
+                Crear Primer Producto
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Contador */}
+      {!loading && products.length > 0 && (
+        <div className="products-count">
+          Mostrando {products.length} producto{products.length !== 1 ? 's' : ''} 
+          {backendStatus === 'connected' ? ' desde la base de datos' : ' de demostración'}
+        </div>
+      )}
     </div>
   );
 };
